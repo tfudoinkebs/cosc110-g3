@@ -32,11 +32,11 @@ const Secant = () => {
 
         iterationData.push({
           iteration: iterationCount,
-          xa: x0Num.toFixed(decimalPlaces),
-          xb: x1Num.toFixed(decimalPlaces),
-          fxa: f(x0Num).toFixed(decimalPlaces),
-          fxb: f(x1Num).toFixed(decimalPlaces),
-          relativeError: relativeError.toFixed(2) + "%",
+          xa: parseFloat(x0Num.toFixed(decimalPlaces)),
+          xb: parseFloat(x1Num.toFixed(decimalPlaces)),
+          fxa: parseFloat(f(x0Num).toFixed(decimalPlaces)),
+          fxb: parseFloat(f(x1Num).toFixed(decimalPlaces)),
+          relativeError: parseFloat(relativeError.toFixed(2)),
         });
 
         if (relativeError.toFixed(2) === "0.00") {
@@ -111,12 +111,6 @@ const Secant = () => {
           Reset
         </button>
       </form>
-      {result !== null && (
-        <div>
-          Root: {result}, f(root) ={" "}
-          {evaluate(functionStr, { x: result }).toFixed(roundOff)}
-        </div>
-      )}
       {iterations.length > 0 && (
         <table>
           <thead>
@@ -144,6 +138,12 @@ const Secant = () => {
         </table>
       )}
       {error && <div style={{ color: "red" }}>{error}</div>}
+      {result !== null && (
+        <div>
+          Root: {result}, f(root) ={" "}
+          {evaluate(functionStr, { x: result }).toFixed(roundOff)}
+        </div>
+      )}
     </div>
   );
 };

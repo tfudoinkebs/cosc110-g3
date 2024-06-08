@@ -30,10 +30,10 @@ const NewtonRaphson = () => {
         let relativeError = Math.abs((x1 - prevX) / x1) * 100;
         iterationData.push({
           iteration: iteration,
-          x: x1.toFixed(decimalPlaces),
-          fx: f(x1).toFixed(decimalPlaces),
-          dfx: df(x1).toFixed(decimalPlaces),
-          relativeError: relativeError.toFixed(2) + "%",
+          x: parseFloat(x1.toFixed(decimalPlaces)),
+          fx: parseFloat(f(x1).toFixed(decimalPlaces)),
+          dfx: parseFloat(df(x1).toFixed(decimalPlaces)),
+          relativeError: parseFloat(relativeError.toFixed(2)),
         });
 
         if (Math.abs(x1 - x0) < tol || relativeError === 0) {
@@ -112,12 +112,6 @@ const NewtonRaphson = () => {
           Reset
         </button>
       </form>
-      {result !== null && (
-        <div>
-          Root: {result}, f(root) ={" "}
-          {evaluate(functionStr, { x: result }).toFixed(roundOff)}
-        </div>
-      )}
       {iterations.length > 0 && (
         <table>
           <thead>
@@ -143,6 +137,12 @@ const NewtonRaphson = () => {
         </table>
       )}
       {error && <div style={{ color: "red" }}>{error}</div>}
+      {result !== null && (
+        <div>
+          Root: {result}, f(root) ={" "}
+          {evaluate(functionStr, { x: result }).toFixed(roundOff)}
+        </div>
+      )}
     </div>
   );
 };

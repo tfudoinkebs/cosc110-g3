@@ -31,12 +31,12 @@ const FalsePosition = () => {
       do {
         c = aNum - (f(aNum) * (bNum - aNum)) / (f(bNum) - f(aNum));
         iterationData.push({
-          xl: aNum.toFixed(decimalPlaces),
-          xr: bNum.toFixed(decimalPlaces),
-          xm: c.toFixed(decimalPlaces),
-          yl: f(aNum).toFixed(decimalPlaces),
-          yr: f(bNum).toFixed(decimalPlaces),
-          ym: f(c).toFixed(decimalPlaces),
+          xl: parseFloat(aNum.toFixed(decimalPlaces)),
+          xr: parseFloat(bNum.toFixed(decimalPlaces)),
+          xm: parseFloat(c.toFixed(decimalPlaces)),
+          yl: parseFloat(f(aNum).toFixed(decimalPlaces)),
+          yr: parseFloat(f(bNum).toFixed(decimalPlaces)),
+          ym: parseFloat(f(c).toFixed(decimalPlaces)),
         });
 
         if (Math.abs(f(c)) <= tol) {
@@ -125,12 +125,6 @@ const FalsePosition = () => {
           Reset
         </button>
       </form>
-      {result !== null && (
-        <div>
-          Root: {result}, f(root) ={" "}
-          {evaluate(originalFunctionStr, { x: result }).toFixed(roundOff)}
-        </div>
-      )}
       {iterations.length > 0 && (
         <table>
           <thead>
@@ -160,6 +154,12 @@ const FalsePosition = () => {
         </table>
       )}
       {error && <div style={{ color: "red" }}>{error}</div>}
+      {result !== null && (
+        <div>
+          Root: {result}, f(root) ={" "}
+          {evaluate(originalFunctionStr, { x: result }).toFixed(roundOff)}
+        </div>
+      )}
     </div>
   );
 };

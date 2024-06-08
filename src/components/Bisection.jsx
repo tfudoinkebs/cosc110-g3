@@ -35,12 +35,12 @@ const Bisection = () => {
 
         iterationData.push({
           iteration: currentIteration,
-          xl: xlNum.toFixed(decimalPlaces),
-          xm: xm.toFixed(decimalPlaces),
-          xr: xrNum.toFixed(decimalPlaces),
-          yl: yl.toFixed(decimalPlaces),
-          ym: ym.toFixed(decimalPlaces),
-          yr: yr.toFixed(decimalPlaces),
+          xl: parseFloat(xlNum.toFixed(decimalPlaces)),
+          xm: parseFloat(xm.toFixed(decimalPlaces)),
+          xr: parseFloat(xrNum.toFixed(decimalPlaces)),
+          yl: parseFloat(yl.toFixed(decimalPlaces)),
+          ym: parseFloat(ym.toFixed(decimalPlaces)),
+          yr: parseFloat(yr.toFixed(decimalPlaces)),
         });
 
         if (Math.abs(ym - prevYm) < 0.1) {
@@ -139,12 +139,6 @@ const Bisection = () => {
           Reset
         </button>
       </form>
-      {result !== null && (
-        <div>
-          Root: {result}, f(root) ={" "}
-          {evaluate(originalFunctionStr, { x: result }).toFixed(roundOff)}
-        </div>
-      )}
       {iterations.length > 0 && (
         <table>
           <thead>
@@ -174,6 +168,12 @@ const Bisection = () => {
         </table>
       )}
       {error && <div style={{ color: "red" }}>{error}</div>}
+      {result !== null && (
+        <div>
+          Root: {result}, f(root) ={" "}
+          {evaluate(originalFunctionStr, { x: result }).toFixed(roundOff)}
+        </div>
+      )}
     </div>
   );
 };
