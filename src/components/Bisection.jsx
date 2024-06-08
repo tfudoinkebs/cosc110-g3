@@ -170,7 +170,7 @@ const Bisection = () => {
       {error && <div style={{ color: "red" }}>{error}</div>}
       {result !== null && (
         <div>
-          Root: {result}, f(root) ={" "}
+          Root: {result}, f(x) ={" "}
           {evaluate(originalFunctionStr, { x: result }).toFixed(roundOff)}
         </div>
       )}

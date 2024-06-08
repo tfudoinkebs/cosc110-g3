@@ -140,7 +140,7 @@ const Secant = () => {
       {error && <div style={{ color: "red" }}>{error}</div>}
       {result !== null && (
         <div>
-          Root: {result}, f(root) ={" "}
+          Root: {result}
           {evaluate(functionStr, { x: result }).toFixed(roundOff)}
         </div>
       )}

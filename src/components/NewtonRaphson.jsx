@@ -54,7 +54,7 @@ const NewtonRaphson = () => {
           x: x1.toFixed(decimalPlaces),
           fx: "0",
           dfx: df(x1).toFixed(decimalPlaces),
-          relativeError: "0.00%",
+          relativeError: "0",
         });
       }
 
@@ -130,19 +130,13 @@ const NewtonRaphson = () => {
                 <td>{iter.x}</td>
                 <td>{iter.fx}</td>
                 <td>{iter.dfx}</td>
-                <td>{iter.relativeError}</td>
+                <td>{iter.relativeError}%</td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
       {error && <div style={{ color: "red" }}>{error}</div>}
-      {result !== null && (
-        <div>
-          Root: {result}, f(root) ={" "}
-          {evaluate(functionStr, { x: result }).toFixed(roundOff)}
-        </div>
-      )}
     </div>
   );
 };
