@@ -107,11 +107,14 @@ const NewtonRaphson = () => {
                 required
               />
             </div>
-            <button className="rounded-lg border-2 p-2" type="submit">
+            <button
+              className="rounded-lg border-2 p-2 hover:border-orange-500"
+              type="submit"
+            >
               Calculate
             </button>
             <button
-              className="rounded-lg border-2 p-2"
+              className="rounded-lg border-2 p-2 hover:border-red-600"
               type="button"
               onClick={handleReset}
             >
@@ -153,10 +156,13 @@ const NewtonRaphson = () => {
               <th className="border-l border-gray-200 p-2">Relative Error</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-slate-50">
             {iterations.length > 0 ? (
               iterations.map((iter, index) => (
-                <tr key={index} className="grid grid-cols-5 border-b">
+                <tr
+                  key={index}
+                  className="grid grid-cols-5 border-b bg-slate-50"
+                >
                   <td className="border-x border-gray-200 p-2">{index + 1}</td>
                   <td className="border-x border-gray-200 p-2">{iter.x}</td>
                   <td className="border-x border-gray-200 p-2">{iter.fx}</td>
@@ -164,7 +170,7 @@ const NewtonRaphson = () => {
                   <td className="border-x border-gray-200 p-2">
                     {iter.relativeError !== null
                       ? `${iter.relativeError}%`
-                      : "-"}
+                      : ""}
                   </td>
                 </tr>
               ))
@@ -179,7 +185,7 @@ const NewtonRaphson = () => {
             )}
           </tbody>
           {error && <div style={{ color: "red" }}>{error}</div>}
-          {result !== undefined &&
+          {/* {result !== undefined &&
             (() => {
               let tableRow = iterations.find(
                 (row) =>
@@ -196,7 +202,7 @@ const NewtonRaphson = () => {
                   </span>
                 </div>
               );
-            })()}
+            })()} */}
         </table>
       </div>
     </div>

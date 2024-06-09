@@ -106,11 +106,14 @@ const FalsePosition = () => {
                 required
               />
             </div>
-            <button className="rounded-lg border-2 p-2" type="submit">
+            <button
+              className="rounded-lg border-2 p-2 hover:border-orange-500"
+              type="submit"
+            >
               Calculate
             </button>
             <button
-              className="rounded-lg border-2 p-2"
+              className="rounded-lg border-2 p-2 hover:border-red-600"
               type="button"
               onClick={handleReset}
             >
@@ -189,10 +192,13 @@ const FalsePosition = () => {
               </th>
             </tr>
           </thead>
-          <tbody className="">
+          <tbody className="bg-slate-50">
             {iterations.length > 0 ? (
               iterations.map((iter, index) => (
-                <tr key={index} className="grid grid-cols-7 border-b">
+                <tr
+                  key={index}
+                  className="grid grid-cols-7 border-b bg-slate-50"
+                >
                   <td className="border-x border-gray-200 p-2">{index + 1}</td>
                   <td className="border-x border-gray-200 p-2">{iter.xl}</td>
                   <td className="border-x border-gray-200 p-2">{iter.xm}</td>

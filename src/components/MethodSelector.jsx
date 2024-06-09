@@ -25,17 +25,17 @@ const MethodSelector = () => {
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center">
-      <h1 className="mt-4 text-center font-mono text-4xl font-black">
+      <h1 className="mt-4 text-center text-4xl font-black">
         Root Finding Methods
       </h1>
-      <p className="text-center font-mono text-base text-gray-600">
+      <p className="text-center text-base text-gray-600">
         Bracket Method: Bisection & False-Position
       </p>
-      <p className="mb-4 text-center font-mono text-base text-gray-600">
+      <p className="mb-4 text-center text-base text-gray-600">
         Open Method: Newton-Raphson & Secant
       </p>
       <select
-        className="rounded-md border border-gray-300 p-2 font-mono"
+        className="rounded-lg border border-gray-300 p-2"
         value={selectedMethod}
         onChange={(e) => setSelectedMethod(e.target.value)}
       >

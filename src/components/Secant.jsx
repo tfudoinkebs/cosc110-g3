@@ -81,11 +81,14 @@ const Secant = () => {
                 required
               />
             </div>
-            <button className="rounded-lg border-2 p-2" type="submit">
+            <button
+              className="rounded-lg border-2 p-2 hover:border-orange-500"
+              type="submit"
+            >
               Calculate
             </button>
             <button
-              className="rounded-lg border-2 p-2"
+              className="rounded-lg border-2 p-2 hover:border-red-600"
               type="button"
               onClick={handleReset}
             >
@@ -96,7 +99,7 @@ const Secant = () => {
         <div className="flex w-full flex-wrap items-center justify-center gap-2 pt-4">
           <label className="flex flex-col gap-1">
             <span className="pr-2 text-sm font-semibold">
-              X<sub className="font-semibold">0</sub>
+              X<sub className="font-semibold">a</sub>
             </span>
             <input
               className="w-20 rounded-lg border-2 px-2 py-1"
@@ -108,7 +111,7 @@ const Secant = () => {
           </label>
           <label className="flex flex-col gap-1">
             <span className="pr-2 text-sm font-semibold">
-              X<sub className="font-semibold">1</sub>
+              X<sub className="font-semibold">b</sub>
             </span>
             <input
               className="w-20 rounded-lg border-2 px-2 py-1"
@@ -141,10 +144,13 @@ const Secant = () => {
               <th className="border-l border-gray-200 p-2">Relative Error</th>
             </tr>
           </thead>
-          <tbody className="">
+          <tbody className="bg-slate-50">
             {iterations.length > 0 ? (
               iterations.map((iter, index) => (
-                <tr key={index} className="grid grid-cols-6 border-b">
+                <tr
+                  key={index}
+                  className="grid grid-cols-6 border-b bg-slate-50"
+                >
                   <td className="border-x border-gray-200 p-2">
                     {iter.iteration}
                   </td>
