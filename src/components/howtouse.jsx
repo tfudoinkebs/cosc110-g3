@@ -18,7 +18,7 @@ const HowToUse = () => {
         </label>
         <select
           id="method"
-          className="ml-2 border-2"
+          className="ml-2 rounded-lg border-2 p-2"
           onChange={handleMethodChange}
         >
           <option value="bisection">Bisection</option>
@@ -135,6 +135,11 @@ const HowToUse = () => {
         <span className="font-semibold text-orange-500">Reset</span>" button.
       </p>{" "}
       <br />
+      <p className="text-xs text-gray-500"> cosc 110 - Group 3</p>
+      <p className="text-xs text-gray-500">
+        {" "}
+        K.R Nuesca | S.H Nuestro | J. Bacalla
+      </p>  
     </div>
   );
 };
