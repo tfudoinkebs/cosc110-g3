@@ -8,7 +8,7 @@ const HowToUse = () => {
   };
 
   return (
-    <div className="w-full p-4 pt-8 text-center font-mono text-lg md:w-4/5 lg:w-3/5">
+    <div className="w-full p-4 pt-8 text-center font-mono text-sm md:w-4/5 lg:w-3/5">
       <h1 className="mb-4 text-2xl font-bold">
         How to Use the Root Finding Method
       </h1>
@@ -139,7 +139,7 @@ const HowToUse = () => {
       <p className="text-xs text-gray-500">
         {" "}
         K.R Nuesca | S.H Nuestro | J. Bacalla
-      </p>  
+      </p>
     </div>
   );
 };
