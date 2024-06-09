@@ -114,7 +114,7 @@ const NewtonRaphson = () => {
           <label className="flex flex-col gap-1">
             <span className="pr-2 text-sm font-semibold">Initial Guess</span>
             <input
-              className="w-20 rounded-lg border-2 px-2 py-1"
+              className="w-28 rounded-lg border-2 px-2 py-1"
               type="number"
               value={initialGuess}
               onChange={(e) => setInitialGuess(e.target.value)}
