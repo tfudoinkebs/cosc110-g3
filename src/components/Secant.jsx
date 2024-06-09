@@ -71,7 +71,7 @@ const Secant = () => {
       <h2>Secant Method</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          Function:{" "}
+          Equation:{" "}
           <input
             disabled={result !== null}
             type="text"

@@ -23,9 +23,10 @@ const MethodSelector = () => {
   };
 
   return (
-    <div>
-      <h1>Root Finding Methods</h1>
+    <div className="flex h-full w-full flex-col items-center justify-center">
+      <h1 className="my-4 text-3xl font-black">Root Finding Methods</h1>
       <select
+        className="rounded-md border border-gray-300 p-2"
         value={selectedMethod}
         onChange={(e) => setSelectedMethod(e.target.value)}
       >
