@@ -9,6 +9,7 @@ const Secant = () => {
   const [result, setResult] = useState(null);
   const [iterations, setIterations] = useState([]);
   const [error, setError] = useState(null);
+  const [precision, setPrecision] = useState("0.01");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,7 +40,8 @@ const Secant = () => {
           relativeError: parseFloat(relativeError.toFixed(2)),
         });
 
-        if (relativeError.toFixed(2) === "0.00") {
+        if (relativeError < parseFloat(precision)) {
+          // Change this line
           break;
         }
 
@@ -118,6 +120,16 @@ const Secant = () => {
               type="number"
               value={x1}
               onChange={(e) => setX1(e.target.value)}
+              required
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="pr-2 text-sm font-semibold">Precision</span>
+            <input
+              className="w-20 rounded-lg border-2 px-2 py-1"
+              type="number"
+              value={precision}
+              onChange={(e) => setPrecision(e.target.value)}
               required
             />
           </label>

@@ -36,7 +36,7 @@ const NewtonRaphson = () => {
 
       do {
         x1 = x0 - f(x0) / df(x0);
-        let relativeError = Math.abs((x1 - prevX) / x1) * 100;
+        let relativeError = Math.abs((x1 - x0) / x1) * 100; // Corrected
 
         iteration++;
         iterationData.push({
@@ -47,24 +47,12 @@ const NewtonRaphson = () => {
           relativeError: parseFloat(relativeError.toFixed(2)),
         });
 
-        if (Math.abs(x1 - x0) < tol) {
+        if (relativeError < tol) {
           break;
         }
 
-        prevX = x0;
         x0 = x1;
       } while (true);
-
-      // Ensure final entry with relative error 0 if the function converges
-      if (iterationData[iterationData.length - 1].relativeError !== 0) {
-        iterationData.push({
-          iteration: iteration + 1,
-          x: parseFloat(x1.toFixed(decimalPlaces)),
-          fx: parseFloat(f(x1).toFixed(decimalPlaces)),
-          dfx: parseFloat(df(x1).toFixed(decimalPlaces)),
-          relativeError: 0,
-        });
-      }
 
       setIterations(iterationData);
       setResult(x1.toFixed(decimalPlaces));
@@ -133,7 +121,6 @@ const NewtonRaphson = () => {
               required
             />
           </label>
-
           <label className="flex flex-col gap-1">
             <span className="pr-2 text-sm font-semibold">Round Off</span>
             <input
@@ -141,6 +128,16 @@ const NewtonRaphson = () => {
               type="number"
               value={roundOff}
               onChange={(e) => setRoundOff(e.target.value)}
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="pr-2 text-sm font-semibold">Precision</span>
+            <input
+              className="w-20 rounded-lg border-2 px-2 py-1"
+              type="number"
+              value={precision}
+              onChange={(e) => setPrecision(e.target.value)}
+              required
             />
           </label>
         </div>
@@ -163,7 +160,9 @@ const NewtonRaphson = () => {
                   key={index}
                   className="grid grid-cols-5 border-b bg-slate-50"
                 >
-                  <td className="border-x border-gray-200 p-2">{index + 1}</td>
+                  <td className="border-x border-gray-200 p-2">
+                    {iter.iteration}
+                  </td>
                   <td className="border-x border-gray-200 p-2">{iter.x}</td>
                   <td className="border-x border-gray-200 p-2">{iter.fx}</td>
                   <td className="border-x border-gray-200 p-2">{iter.dfx}</td>
@@ -184,26 +183,8 @@ const NewtonRaphson = () => {
               </tr>
             )}
           </tbody>
-          {error && <div style={{ color: "red" }}>{error}</div>}
-          {/* {result !== undefined &&
-            (() => {
-              let tableRow = iterations.find(
-                (row) =>
-                  parseFloat(row.x.toFixed(roundOff)) === parseFloat(result),
-              );
-              let displayResult = tableRow ? tableRow.fx : "n/a ";
-              return (
-                <div className="flex w-full items-center justify-between rounded-b-lg bg-orange-500 p-2 text-white">
-                  <span>
-                    <span className="font-semibold">Root:</span> {result}
-                  </span>
-                  <span>
-                    <span className="font-semibold">f(x)</span>: {displayResult}
-                  </span>
-                </div>
-              );
-            })()} */}
         </table>
+        {error && <div style={{ color: "red" }}>{error}</div>}
       </div>
     </div>
   );

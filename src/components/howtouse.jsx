@@ -104,8 +104,8 @@ const HowToUse = () => {
                 1. Enter the{" "}
                 <span className="font-semibold text-orange-500">equation</span>{" "}
                 in the input field. The equation should be written in JavaScript
-                syntax. For example, if your equation is "x^3 + 2x^2 - 9", you
-                should enter it as is.
+                syntax. For example, if your equation is "x^3 + 3 * x^2 + 12 *
+                x+8", you should enter it as is.
               </p>{" "}
               <br />
               <p className="text-justify">
