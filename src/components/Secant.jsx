@@ -3,8 +3,8 @@ import { evaluate } from "mathjs";
 
 const Secant = () => {
   const [functionStr, setFunctionStr] = useState("");
-  const [x0, setX0] = useState("");
-  const [x1, setX1] = useState("");
+  const [x0, setX0] = useState("1");
+  const [x1, setX1] = useState("2");
   const [roundOff, setRoundOff] = useState("4");
   const [result, setResult] = useState(null);
   const [iterations, setIterations] = useState([]);
@@ -67,83 +67,118 @@ const Secant = () => {
   };
 
   return (
-    <div>
-      <h2>Secant Method</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Equation:{" "}
-          <input
-            disabled={result !== null}
-            type="text"
-            value={functionStr}
-            onChange={(e) => setFunctionStr(e.target.value)}
-            required
-          />
+    <div className="flex w-full flex-col items-center justify-center">
+      <form className="flex w-full flex-col" onSubmit={handleSubmit}>
+        <label className="flex w-full flex-col">
+          <div className="flex w-full items-end justify-center gap-2 pt-4 text-sm font-semibold">
+            <div className="flex h-auto w-auto flex-col items-center justify-center">
+              <h2 className="flex w-auto text-sm font-semibold">Equation</h2>
+              <input
+                className="flex w-full items-center justify-center rounded-lg border-2 p-2 text-center font-semibold"
+                type="text"
+                value={functionStr}
+                onChange={(e) => setFunctionStr(e.target.value)}
+                required
+              />
+            </div>
+            <button className="rounded-lg border-2 p-2" type="submit">
+              Calculate
+            </button>
+            <button
+              className="rounded-lg border-2 p-2"
+              type="button"
+              onClick={handleReset}
+            >
+              Reset
+            </button>
+          </div>
         </label>
-        <label>
-          x0:{" "}
-          <input
-            type="number"
-            value={x0}
-            onChange={(e) => setX0(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          x1:{" "}
-          <input
-            type="number"
-            value={x1}
-            onChange={(e) => setX1(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Round Off (decimal places):{" "}
-          <input
-            type="number"
-            value={roundOff}
-            onChange={(e) => setRoundOff(e.target.value)}
-          />
-        </label>
-        <button type="submit">Find Root</button>
-        <button type="button" onClick={handleReset}>
-          Reset
-        </button>
+        <div className="flex w-full flex-wrap items-center justify-center gap-2 pt-4">
+          <label className="flex flex-col gap-1">
+            <span className="pr-2 text-sm font-semibold">
+              X<sub className="font-semibold">0</sub>
+            </span>
+            <input
+              className="w-20 rounded-lg border-2 px-2 py-1"
+              type="number"
+              value={x0}
+              onChange={(e) => setX0(e.target.value)}
+              required
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="pr-2 text-sm font-semibold">
+              X<sub className="font-semibold">1</sub>
+            </span>
+            <input
+              className="w-20 rounded-lg border-2 px-2 py-1"
+              type="number"
+              value={x1}
+              onChange={(e) => setX1(e.target.value)}
+              required
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="pr-2 text-sm font-semibold">Round Off</span>
+            <input
+              className="w-20 rounded-lg border-2 px-2 py-1"
+              type="number"
+              value={roundOff}
+              onChange={(e) => setRoundOff(e.target.value)}
+            />
+          </label>
+        </div>
       </form>
-      {iterations.length > 0 && (
-        <table>
+      <div className="mt-4 flex w-full flex-col overflow-x-auto px-4 md:w-4/5 lg:w-3/5">
+        <table className="min-w-max">
           <thead>
-            <tr>
-              <th>Iteration</th>
-              <th>Xa</th>
-              <th>Xb</th>
-              <th>f(Xa)</th>
-              <th>f(Xb)</th>
-              <th>Relative Error</th>
+            <tr className="grid grid-cols-6 rounded-t-lg border-b bg-orange-500 text-left text-white">
+              <th className="border-r border-gray-200 p-2">Iteration</th>
+              <th className="border-x border-gray-200 p-2">Xa</th>
+              <th className="border-x border-gray-200 p-2">Xb</th>
+              <th className="border-x border-gray-200 p-2">f(Xa)</th>
+              <th className="border-x border-gray-200 p-2">f(Xb)</th>
+              <th className="border-l border-gray-200 p-2">Relative Error</th>
             </tr>
           </thead>
-          <tbody>
-            {iterations.map((iter, index) => (
-              <tr key={index}>
-                <td>{iter.iteration}</td>
-                <td>{iter.xa}</td>
-                <td>{iter.xb}</td>
-                <td>{iter.fxa}</td>
-                <td>{iter.fxb}</td>
-                <td>{iter.relativeError}</td>
+          <tbody className="">
+            {iterations.length > 0 ? (
+              iterations.map((iter, index) => (
+                <tr key={index} className="grid grid-cols-6 border-b">
+                  <td className="border-x border-gray-200 p-2">
+                    {iter.iteration}
+                  </td>
+                  <td className="border-x border-gray-200 p-2">{iter.xa}</td>
+                  <td className="border-x border-gray-200 p-2">{iter.xb}</td>
+                  <td className="border-x border-gray-200 p-2">{iter.fxa}</td>
+                  <td className="border-x border-gray-200 p-2">{iter.fxb}</td>
+                  <td className="border-x border-gray-200 p-2">
+                    {iter.relativeError}%
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="grid grid-cols-6 gap-2 border-b">
+                <td className="border-gray-200 p-5"></td>
+                <td className="border-gray-200 p-5"></td>
+                <td className="border-gray-200 p-5"></td>
+                <td className="border-gray-200 p-5"></td>
+                <td className="border-gray-200 p-5"></td>
+                <td className="border-gray-200 p-5"></td>
               </tr>
-            ))}
+            )}
           </tbody>
+          {error && <div style={{ color: "red" }}>{error}</div>}
+          {result !== null &&
+            (() => {
+              let tableRow = iterations.find(
+                (row) =>
+                  parseFloat(row.xb.toFixed(roundOff)) === parseFloat(result),
+              );
+              let displayResult = tableRow ? tableRow.fxb : "n/a ";
+            })()}
         </table>
-      )}
-      {error && <div style={{ color: "red" }}>{error}</div>}
-      {result !== null && (
-        <div>
-          Root: {result}
-          {evaluate(functionStr, { x: result }).toFixed(roundOff)}
-        </div>
-      )}
+      </div>
     </div>
   );
 };

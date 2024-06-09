@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { evaluate, derivative } from "mathjs";
 
 const NewtonRaphson = () => {
+  const [originalFunctionStr, setOriginalFunctionStr] = useState("");
   const [functionStr, setFunctionStr] = useState("");
-  const [initialGuess, setInitialGuess] = useState("");
-  const [precision, setPrecision] = useState("0.1");
+  const [initialGuess, setInitialGuess] = useState("1");
+  const [precision, setPrecision] = useState("0.0001");
   const [roundOff, setRoundOff] = useState("4");
   const [result, setResult] = useState(null);
   const [iterations, setIterations] = useState([]);
@@ -22,12 +23,22 @@ const NewtonRaphson = () => {
       let x1;
       let prevX = x0;
       let iterationData = [];
+      let iteration = 1;
 
-      let iteration = 1; // Start from 1 to correctly count the iterations
+      // First iteration initialization
+      iterationData.push({
+        iteration: iteration,
+        x: parseFloat(x0.toFixed(decimalPlaces)),
+        fx: parseFloat(f(x0).toFixed(decimalPlaces)),
+        dfx: parseFloat(df(x0).toFixed(decimalPlaces)),
+        relativeError: null,
+      });
 
       do {
         x1 = x0 - f(x0) / df(x0);
         let relativeError = Math.abs((x1 - prevX) / x1) * 100;
+
+        iteration++;
         iterationData.push({
           iteration: iteration,
           x: parseFloat(x1.toFixed(decimalPlaces)),
@@ -36,25 +47,22 @@ const NewtonRaphson = () => {
           relativeError: parseFloat(relativeError.toFixed(2)),
         });
 
-        if (Math.abs(x1 - x0) < tol || relativeError === 0) {
+        if (Math.abs(x1 - x0) < tol) {
           break;
         }
-        prevX = x1;
+
+        prevX = x0;
         x0 = x1;
-        iteration++;
       } while (true);
 
-      // Add one more iteration with relative error of 0%
-      if (
-        iterationData.length > 0 &&
-        iterationData[iterationData.length - 1].relativeError !== "0.00%"
-      ) {
+      // Ensure final entry with relative error 0 if the function converges
+      if (iterationData[iterationData.length - 1].relativeError !== 0) {
         iterationData.push({
-          iteration: iterationData.length + 1,
-          x: x1.toFixed(decimalPlaces),
-          fx: "0",
-          dfx: df(x1).toFixed(decimalPlaces),
-          relativeError: "0",
+          iteration: iteration + 1,
+          x: parseFloat(x1.toFixed(decimalPlaces)),
+          fx: parseFloat(f(x1).toFixed(decimalPlaces)),
+          dfx: parseFloat(df(x1).toFixed(decimalPlaces)),
+          relativeError: 0,
         });
       }
 
@@ -67,9 +75,9 @@ const NewtonRaphson = () => {
   };
 
   const handleReset = () => {
-    setFunctionStr("");
+    setFunctionStr(originalFunctionStr);
     setInitialGuess("");
-    setPrecision("0.1");
+    setPrecision("0.0001");
     setRoundOff("4");
     setResult(null);
     setIterations([]);
@@ -77,66 +85,120 @@ const NewtonRaphson = () => {
   };
 
   return (
-    <div>
-      <h2>Newton-Raphson Method</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Equation:{" "}
-          <input
-            disabled={result !== null}
-            type="text"
-            value={functionStr}
-            onChange={(e) => setFunctionStr(e.target.value)}
-            required
-          />
+    <div className="flex w-full flex-col items-center justify-center">
+      <form className="flex w-full flex-col" onSubmit={handleSubmit}>
+        <label className="flex w-full flex-col">
+          <div className="flex w-full items-end justify-center gap-2 pt-4 text-sm font-semibold">
+            <div className="flex h-auto w-auto flex-col items-center justify-center">
+              <h2 className="flex w-auto text-sm font-semibold">Equation</h2>
+              <input
+                className="flex w-full items-center justify-center rounded-lg border-2 p-2 text-center font-semibold"
+                onChange={(e) => {
+                  try {
+                    new Function(`return ${e.target.value}`);
+                    setOriginalFunctionStr(e.target.value);
+                    setFunctionStr(e.target.value);
+                  } catch (error) {
+                    console.error(
+                      "Invalid function expression. Please check your input.",
+                    );
+                  }
+                }}
+                required
+              />
+            </div>
+            <button className="rounded-lg border-2 p-2" type="submit">
+              Calculate
+            </button>
+            <button
+              className="rounded-lg border-2 p-2"
+              type="button"
+              onClick={handleReset}
+            >
+              Reset
+            </button>
+          </div>
         </label>
-        <label>
-          Initial Value for Xo:{" "}
-          <input
-            type="number"
-            value={initialGuess}
-            onChange={(e) => setInitialGuess(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Round Off (decimal places):{" "}
-          <input
-            type="number"
-            value={roundOff}
-            onChange={(e) => setRoundOff(e.target.value)}
-          />
-        </label>
-        <button type="submit">Find Root</button>
-        <button type="button" onClick={handleReset}>
-          Reset
-        </button>
+        <div className="flex w-full flex-wrap items-center justify-center gap-2 pt-4">
+          <label className="flex flex-col gap-1">
+            <span className="pr-2 text-sm font-semibold">Initial Guess</span>
+            <input
+              className="w-20 rounded-lg border-2 px-2 py-1"
+              type="number"
+              value={initialGuess}
+              onChange={(e) => setInitialGuess(e.target.value)}
+              required
+            />
+          </label>
+
+          <label className="flex flex-col gap-1">
+            <span className="pr-2 text-sm font-semibold">Round Off</span>
+            <input
+              className="w-20 rounded-lg border-2 px-2 py-1"
+              type="number"
+              value={roundOff}
+              onChange={(e) => setRoundOff(e.target.value)}
+            />
+          </label>
+        </div>
       </form>
-      {iterations.length > 0 && (
-        <table>
+      <div className="mt-4 flex w-full flex-col overflow-x-auto px-4 md:w-4/5 lg:w-3/5">
+        <table className="min-w-max">
           <thead>
-            <tr>
-              <th>Iterations</th>
-              <th>x</th>
-              <th>f(x)</th>
-              <th>f'(x)</th>
-              <th>Relative Error</th>
+            <tr className="grid grid-cols-5 rounded-t-lg border-b bg-orange-500 text-left text-white">
+              <th className="border-r border-gray-200 p-2">Iteration</th>
+              <th className="border-x border-gray-200 p-2">x</th>
+              <th className="border-x border-gray-200 p-2">f(x)</th>
+              <th className="border-x border-gray-200 p-2">f'(x)</th>
+              <th className="border-l border-gray-200 p-2">Relative Error</th>
             </tr>
           </thead>
           <tbody>
-            {iterations.map((iter) => (
-              <tr key={iter.iteration}>
-                <td>{iter.iteration}</td>
-                <td>{iter.x}</td>
-                <td>{iter.fx}</td>
-                <td>{iter.dfx}</td>
-                <td>{iter.relativeError}%</td>
+            {iterations.length > 0 ? (
+              iterations.map((iter, index) => (
+                <tr key={index} className="grid grid-cols-5 border-b">
+                  <td className="border-x border-gray-200 p-2">{index + 1}</td>
+                  <td className="border-x border-gray-200 p-2">{iter.x}</td>
+                  <td className="border-x border-gray-200 p-2">{iter.fx}</td>
+                  <td className="border-x border-gray-200 p-2">{iter.dfx}</td>
+                  <td className="border-x border-gray-200 p-2">
+                    {iter.relativeError !== null
+                      ? `${iter.relativeError}%`
+                      : "-"}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="grid grid-cols-5 gap-2 border-b">
+                <td className="border-gray-200 p-5"></td>
+                <td className="border-gray-200 p-5"></td>
+                <td className="border-gray-200 p-5"></td>
+                <td className="border-gray-200 p-5"></td>
+                <td className="border-gray-200 p-5"></td>
               </tr>
-            ))}
+            )}
           </tbody>
+          {error && <div style={{ color: "red" }}>{error}</div>}
+          {result !== undefined &&
+            (() => {
+              let tableRow = iterations.find(
+                (row) =>
+                  parseFloat(row.x.toFixed(roundOff)) === parseFloat(result),
+              );
+              let displayResult = tableRow ? tableRow.fx : "n/a ";
+              return (
+                <div className="flex w-full items-center justify-between rounded-b-lg bg-orange-500 p-2 text-white">
+                  <span>
+                    <span className="font-semibold">Root:</span> {result}
+                  </span>
+                  <span>
+                    <span className="font-semibold">f(x)</span>: {displayResult}
+                  </span>
+                </div>
+              );
+            })()}
         </table>
-      )}
-      {error && <div style={{ color: "red" }}>{error}</div>}
+      </div>
     </div>
   );
 };

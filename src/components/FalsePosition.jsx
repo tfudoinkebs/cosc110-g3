@@ -4,8 +4,8 @@ import { evaluate } from "mathjs";
 const FalsePosition = () => {
   const [originalFunctionStr, setOriginalFunctionStr] = useState("");
   const [functionStr, setFunctionStr] = useState("");
-  const [a, setA] = useState("");
-  const [b, setB] = useState("");
+  const [a, setA] = useState("1");
+  const [b, setB] = useState("2");
   const [precision, setPrecision] = useState("0.1");
   const [roundOff, setRoundOff] = useState("4");
   const [result, setResult] = useState(null);
@@ -57,14 +57,15 @@ const FalsePosition = () => {
           aNum = c;
         }
 
-        if (prevPrevYm !== null && Math.abs(ym - prevPrevYm) < tol) {
+        ym = f(c);
+
+        if (prevYm !== null && Math.abs(ym - prevYm) < 0.1) {
           break;
         }
 
-        prevPrevYm = prevYm; // Update the Ym value of the iteration before the previous one
-        prevYm = ym; // Update the previous Ym value
+        prevYm = ym; // Update the previous ym value
         currentIteration++;
-      } while (Math.abs(f(c)) > tol);
+      } while (true);
 
       setIterations(iterationData);
       setResult(c.toFixed(decimalPlaces));
@@ -166,8 +167,8 @@ const FalsePosition = () => {
       <div className="mt-4 flex w-full flex-col overflow-x-auto px-4 md:w-4/5 lg:w-3/5">
         <table className="min-w-max">
           <thead>
-            <tr className="grid grid-cols-7 rounded-t-lg border-b bg-slate-100 text-left">
-              <th className="p-1">Iteration</th>
+            <tr className="grid grid-cols-7 rounded-t-lg border-b bg-orange-500 text-left text-white">
+              <th className="border-r border-gray-200 p-2">Iteration</th>
               <th className="border-x border-gray-200 p-2">
                 X<sub>L</sub>
               </th>
@@ -222,7 +223,7 @@ const FalsePosition = () => {
               );
               let displayResult = tableRow ? tableRow.ym : "n/a";
               return (
-                <div className="flex w-full items-center justify-between rounded-b-lg bg-slate-100 p-2">
+                <div className="flex w-full items-center justify-between rounded-b-lg bg-orange-500 p-2 text-white">
                   <span>
                     <span className="font-semibold">Root:</span> {result}
                   </span>

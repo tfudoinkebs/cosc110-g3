@@ -119,7 +119,7 @@ const Bisection = () => {
         </label>
         <div className="flex w-full flex-wrap items-center justify-center gap-2 pt-4">
           <label className="flex flex-col gap-1">
-            <span className="pr-2 text-sm font-semibold">
+            <span className="text-sm font-semibold">
               X<sub className="font-semibold">L</sub>
             </span>
 
@@ -132,7 +132,7 @@ const Bisection = () => {
             />
           </label>
           <label className="flex flex-col gap-1">
-            <span className="pr-2 text-sm font-semibold">
+            <span className="text-sm font-semibold">
               X<sub className="font-semibold">R</sub>
             </span>
             <input
@@ -144,7 +144,7 @@ const Bisection = () => {
             />
           </label>
           <label className="flex flex-col gap-1">
-            <span className="pr-2 text-sm font-semibold">Precision</span>
+            <span className="text-sm font-semibold">Precision</span>
             <input
               className="w-20 rounded-lg border-2 px-2 py-1"
               type="number"
@@ -154,7 +154,7 @@ const Bisection = () => {
             />
           </label>
           <label className="flex flex-col gap-1">
-            <span className="pr-2 text-sm font-semibold">Round Off</span>
+            <span className="text-sm font-semibold">Round Off</span>
             <input
               className="w-20 rounded-lg border-2 px-2 py-1"
               type="number"
@@ -167,8 +167,8 @@ const Bisection = () => {
       <div className="mt-4 flex w-full flex-col overflow-x-auto px-4 md:w-4/5 lg:w-3/5">
         <table className="min-w-max">
           <thead>
-            <tr className="grid grid-cols-7 rounded-t-lg border-b bg-slate-100 text-left">
-              <th className="p-1">Iteration</th>
+            <tr className="grid grid-cols-7 rounded-t-lg border-b bg-orange-500 text-left text-white">
+              <th className="border-r border-gray-200 p-2">Iteration</th>
               <th className="border-x border-gray-200 p-2">
                 X<sub>L</sub>
               </th>
@@ -223,7 +223,7 @@ const Bisection = () => {
               );
               let displayResult = tableRow ? tableRow.ym : "n/a ";
               return (
-                <div className="flex w-full items-center justify-between rounded-b-lg bg-slate-100 p-2">
+                <div className="flex w-full items-center justify-between rounded-b-lg bg-orange-500 p-2 text-white">
                   <span>
                     <span className="font-semibold">Root:</span> {result}
                   </span>

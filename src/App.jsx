@@ -3,7 +3,7 @@ import MethodSelector from "./components/MethodSelector";
 
 const App = () => {
   return (
-    <div className="App">
+    <div className="App font-mono">
       <MethodSelector />
     </div>
   );
