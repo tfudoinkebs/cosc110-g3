@@ -59,7 +59,7 @@ const FalsePosition = () => {
 
         ym = f(c);
 
-        if (prevYm !== null && Math.abs(ym - prevYm) < 0.1) {
+        if (prevYm !== null && Math.abs(ym - prevYm) < tol) {
           break;
         }
 

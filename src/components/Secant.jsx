@@ -141,7 +141,11 @@ const Secant = () => {
               <th className="border-x border-gray-200 p-2">Xb</th>
               <th className="border-x border-gray-200 p-2">f(Xa)</th>
               <th className="border-x border-gray-200 p-2">f(Xb)</th>
-              <th className="border-l border-gray-200 p-2">Relative Error</th>
+              <th className="border-l border-gray-200 p-2">
+                Relative
+                <br />
+                Error
+              </th>
             </tr>
           </thead>
           <tbody className="bg-slate-50">

@@ -24,7 +24,6 @@ const Bisection = () => {
         iterationData = [];
 
       let prevYm = null; // Store the previous Ym value
-      let prevPrevYm = null; // Store the Ym value of the iteration before the previous one
       let currentIteration = 1;
 
       do {
@@ -43,7 +42,7 @@ const Bisection = () => {
           yr: parseFloat(yr.toFixed(decimalPlaces)),
         });
 
-        if (Math.abs(ym - prevYm) < 0.1) {
+        if (prevYm !== null && Math.abs(ym - prevYm) < tol) {
           break;
         }
 
@@ -53,12 +52,6 @@ const Bisection = () => {
           xlNum = xm;
         }
 
-        // Check if prevPrevYm has a value (not null) and if the difference between current Ym and prevPrevYm is less than 0.1
-        if (prevPrevYm !== null && Math.abs(ym - prevPrevYm) < 0.1) {
-          break;
-        }
-
-        prevPrevYm = prevYm; // Update the Ym value of the iteration before the previous one
         prevYm = ym; // Update the previous Ym value
         currentIteration++;
       } while (true);
@@ -73,8 +66,8 @@ const Bisection = () => {
 
   const handleReset = () => {
     setFunctionStr(originalFunctionStr);
-    setXL("");
-    setXR("");
+    setXL("1");
+    setXR("2");
     setPrecision("0.1");
     setRoundOff("4");
     setResult(null);
