@@ -3,7 +3,7 @@ import { evaluate } from "mathjs";
 
 const FalsePosition = () => {
   const [originalFunctionStr, setOriginalFunctionStr] = useState("");
-  const [functionStr, setFunctionStr] = useState("");
+  const [functionStr, setFunctionStr] = useState("2x^3 - 2x - 5");
   const [a, setA] = useState("1");
   const [b, setB] = useState("2");
   const [precision, setPrecision] = useState("0.1");
@@ -92,11 +92,10 @@ const FalsePosition = () => {
       <form className="flex w-full flex-col" onSubmit={handleSubmit}>
         <label className="flex w-full flex-col">
           <div className="flex w-full items-end justify-center gap-2 pt-4 text-sm font-semibold">
-            <div className="flex h-auto w-auto flex-col items-center justify-center">
+            <div className="ml-2 flex h-auto w-2/3 flex-col items-center justify-center md:w-1/3">
               <h2 className="flex w-auto text-sm font-semibold">Equation</h2>
               <input
                 className="flex w-full items-center justify-center rounded-lg border-2 p-2 text-center font-semibold"
-                disabled={result !== null}
                 type="text"
                 value={functionStr}
                 onChange={(e) => {
@@ -113,7 +112,7 @@ const FalsePosition = () => {
               Calculate
             </button>
             <button
-              className="rounded-lg border-2 p-2 hover:border-red-600"
+              className="mr-2 rounded-lg border-2 p-2 hover:border-red-600"
               type="button"
               onClick={handleReset}
             >

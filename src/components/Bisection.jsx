@@ -3,7 +3,7 @@ import { evaluate } from "mathjs";
 
 const Bisection = () => {
   const [originalFunctionStr, setOriginalFunctionStr] = useState("");
-  const [functionStr, setFunctionStr] = useState("");
+  const [functionStr, setFunctionStr] = useState("x^3 - x - 2");
   const [xl, setXL] = useState("1");
   const [xr, setXR] = useState("2");
   const [precision, setPrecision] = useState("0.1");
@@ -80,10 +80,11 @@ const Bisection = () => {
       <form className="flex w-full flex-col" onSubmit={handleSubmit}>
         <label className="flex w-full flex-col">
           <div className="flex w-full items-end justify-center gap-2 pt-4 text-sm font-semibold">
-            <div className="flex h-auto w-auto flex-col items-center justify-center">
+            <div className="ml-2 flex h-auto w-2/3 flex-col items-center justify-center md:w-1/3">
               <h2 className="flex w-auto text-sm font-semibold">Equation</h2>
               <input
                 className="flex w-full items-center justify-center rounded-lg border-2 p-2 text-center font-semibold"
+                defaultValue={functionStr}
                 onChange={(e) => {
                   try {
                     new Function(`return ${e.target.value}`);
@@ -105,7 +106,7 @@ const Bisection = () => {
               Calculate
             </button>
             <button
-              className="rounded-lg border-2 p-2 hover:border-red-600"
+              className="mr-2 rounded-lg border-2 p-2 hover:border-red-600"
               type="button"
               onClick={handleReset}
             >
@@ -213,26 +214,26 @@ const Bisection = () => {
               </tr>
             )}
           </tbody>
-          {error && <div style={{ color: "red" }}>{error}</div>}
-          {result !== undefined &&
-            (() => {
-              let tableRow = iterations.find(
-                (row) =>
-                  parseFloat(row.xm.toFixed(roundOff)) === parseFloat(result),
-              );
-              let displayResult = tableRow ? tableRow.ym : "n/a ";
-              return (
-                <div className="flex w-full items-center justify-between rounded-b-lg bg-orange-500 p-2 text-white">
-                  <span>
-                    <span className="font-semibold">Root:</span> {result}
-                  </span>
-                  <span>
-                    <span className="font-semibold">f(x)</span>: {displayResult}
-                  </span>
-                </div>
-              );
-            })()}
         </table>
+        {error && <div style={{ color: "red" }}>{error}</div>}
+        {result !== undefined &&
+          (() => {
+            let tableRow = iterations.find(
+              (row) =>
+                parseFloat(row.xm.toFixed(roundOff)) === parseFloat(result),
+            );
+            let displayResult = tableRow ? tableRow.ym : "n/a ";
+            return (
+              <div className="flex w-full items-center justify-between rounded-b-lg bg-orange-500 p-2 text-white">
+                <span>
+                  <span className="font-semibold">Root:</span> {result}
+                </span>
+                <span>
+                  <span className="font-semibold">f(x)</span>: {displayResult}
+                </span>
+              </div>
+            );
+          })()}
       </div>
     </div>
   );

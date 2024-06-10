@@ -3,7 +3,7 @@ import { evaluate, derivative } from "mathjs";
 
 const NewtonRaphson = () => {
   const [originalFunctionStr, setOriginalFunctionStr] = useState("");
-  const [functionStr, setFunctionStr] = useState("");
+  const [functionStr, setFunctionStr] = useState("sin(sqrt(x))-x");
   const [initialGuess, setInitialGuess] = useState("1");
   const [precision, setPrecision] = useState("0.0001");
   const [roundOff, setRoundOff] = useState("4");
@@ -77,10 +77,11 @@ const NewtonRaphson = () => {
       <form className="flex w-full flex-col" onSubmit={handleSubmit}>
         <label className="flex w-full flex-col">
           <div className="flex w-full items-end justify-center gap-2 pt-4 text-sm font-semibold">
-            <div className="flex h-auto w-auto flex-col items-center justify-center">
+            <div className="ml-2 flex h-auto w-2/3 flex-col items-center justify-center md:w-1/3">
               <h2 className="flex w-auto text-sm font-semibold">Equation</h2>
               <input
                 className="flex w-full items-center justify-center rounded-lg border-2 p-2 text-center font-semibold"
+                defaultValue={functionStr}
                 onChange={(e) => {
                   try {
                     new Function(`return ${e.target.value}`);
@@ -102,7 +103,7 @@ const NewtonRaphson = () => {
               Calculate
             </button>
             <button
-              className="rounded-lg border-2 p-2 hover:border-red-600"
+              className="mr-2 rounded-lg border-2 p-2 hover:border-red-600"
               type="button"
               onClick={handleReset}
             >
