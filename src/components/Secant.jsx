@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { evaluate } from "mathjs";
+import { FaRandom } from "react-icons/fa";
+import { FaArrowRotateRight } from "react-icons/fa6";
 
 const Secant = () => {
   const [functionStr, setFunctionStr] = useState("x^3 + 3 * x^2 + 12 * x + 8");
@@ -104,7 +106,8 @@ const Secant = () => {
               type="button"
               onClick={generateRandomEquation}
             >
-              Randomize
+              <p className="hidden md:block">Randomize</p>
+              <FaRandom className="block size-5 md:hidden" />
             </button>
             <div className="ml-2 flex h-auto w-2/3 flex-col items-center justify-center md:w-1/3">
               <h2 className="flex w-auto text-sm font-semibold">Equation</h2>
@@ -129,7 +132,8 @@ const Secant = () => {
               type="button"
               onClick={handleReset}
             >
-              Reset
+              <p className="hidden md:block">Reset</p>{" "}
+              <FaArrowRotateRight className="block size-5 md:hidden" />
             </button>
           </div>
         </label>

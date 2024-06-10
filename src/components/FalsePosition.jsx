@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { evaluate } from "mathjs";
+import { FaRandom } from "react-icons/fa";
+import { FaArrowRotateRight } from "react-icons/fa6";
 
 const FalsePosition = () => {
   const [functionStr, setFunctionStr] = useState("2x^3 - 2x - 5");
@@ -115,7 +117,8 @@ const FalsePosition = () => {
               type="button"
               onClick={generateRandomEquation}
             >
-              Randomize
+              <p className="hidden md:block">Randomize</p>
+              <FaRandom className="block size-5 md:hidden" />
             </button>
             <div className="flex h-auto w-2/3 flex-col items-center justify-center md:w-1/3">
               <h2 className="flex w-auto text-sm font-semibold">Equation</h2>
@@ -140,7 +143,8 @@ const FalsePosition = () => {
               type="button"
               onClick={handleReset}
             >
-              Reset
+              <p className="hidden md:block">Reset</p>{" "}
+              <FaArrowRotateRight className="block size-5 md:hidden" />
             </button>
           </div>
         </label>
