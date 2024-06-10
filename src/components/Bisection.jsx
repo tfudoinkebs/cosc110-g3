@@ -42,13 +42,6 @@ const Bisection = () => {
       let prevYm = null;
       let currentIteration = 1;
 
-      // error handling for invalid function values
-      // if (f(xlNum) * f(xrNum) >= 0) {
-      //   handleError();
-      //   setError("Function values at the endpoints must have opposite signs.");
-      //   return;
-      // }
-
       do {
         xm = (xlNum + xrNum) / 2;
         let yl = f(xlNum);

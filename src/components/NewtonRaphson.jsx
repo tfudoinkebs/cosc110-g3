@@ -35,7 +35,6 @@ const NewtonRaphson = () => {
       let tol = parseFloat(precision);
       let decimalPlaces = parseInt(roundOff);
       let x1;
-      let prevX = x0;
       let iterationData = [];
       let iteration = 1;
 

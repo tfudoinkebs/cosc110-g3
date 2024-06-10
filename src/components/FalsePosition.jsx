@@ -37,14 +37,6 @@ const FalsePosition = () => {
       let iterationData = [];
       let prevYm = null; // Store the previous Ym value
       let currentIteration = 1;
-      const maxIterations = 1000; // Set a maximum limit for iterations
-
-      // error handling for invalid function values
-      // if (f(aNum) * f(bNum) >= 0) {
-      //   handleError();
-      //   setError("Function values at the endpoints must have opposite signs.");
-      //   return;
-      // }
 
       let prevC = null;
 

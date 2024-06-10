@@ -38,14 +38,6 @@ const Secant = () => {
       let previousRelativeError = null;
       let iterationCount = 1;
 
-      // error handling for invalid function values
-      // if (f(x0Num) * f(x1Num) >= 0) {
-      //   setError(
-      //     "Function values at the endpoints must have opposite signs. This can lead to incorrect results or failure of convergence",
-      //   );
-      //   return;
-      // }
-
       do {
         x2 = x1Num - f(x1Num) * ((x1Num - x0Num) / (f(x1Num) - f(x0Num)));
 
@@ -146,7 +138,7 @@ const Secant = () => {
         <div className="flex w-full flex-wrap items-center justify-center gap-2 pt-4">
           <label className="flex flex-col gap-1">
             <span className="pr-2 text-sm font-semibold">
-              X<sub className="font-semibold">L</sub>
+              X<sub className="font-semibold">A</sub>
             </span>
             <input
               className="w-20 rounded-lg border-2 px-2 py-1"
@@ -158,7 +150,7 @@ const Secant = () => {
           </label>
           <label className="flex flex-col gap-1">
             <span className="pr-2 text-sm font-semibold">
-              X<sub className="font-semibold">R</sub>
+              X<sub className="font-semibold">B</sub>
             </span>
             <input
               className="w-20 rounded-lg border-2 px-2 py-1"
@@ -194,10 +186,18 @@ const Secant = () => {
           <thead>
             <tr className="grid grid-cols-6 rounded-t-lg border-b bg-orange-500 text-left text-white">
               <th className="border-r border-gray-200 p-2">Iteration</th>
-              <th className="border-x border-gray-200 p-2">Xa</th>
-              <th className="border-x border-gray-200 p-2">Xb</th>
-              <th className="border-x border-gray-200 p-2">f(Xa)</th>
-              <th className="border-x border-gray-200 p-2">f(Xb)</th>
+              <th className="border-x border-gray-200 p-2">
+                X<sub>A</sub>
+              </th>
+              <th className="border-x border-gray-200 p-2">
+                X<sub>B</sub>
+              </th>
+              <th className="border-x border-gray-200 p-2">
+                f(X<sub>A</sub>)
+              </th>
+              <th className="border-x border-gray-200 p-2">
+                f(X<sub>B</sub>)
+              </th>
               <th className="border-l border-gray-200 p-2">
                 Relative
                 <br />
