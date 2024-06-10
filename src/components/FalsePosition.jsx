@@ -35,7 +35,7 @@ const FalsePosition = () => {
       let decimalPlaces = parseInt(roundOff);
       let c;
       let iterationData = [];
-      let prevYm = null; // Store the previous Ym value
+      let prevYm = null;
       let currentIteration = 1;
 
       let prevC = null;
@@ -56,12 +56,10 @@ const FalsePosition = () => {
           yr: parseFloat(yr.toFixed(decimalPlaces)),
         });
 
-        // If the result is NaN or the same as the previous value, break the iteration
         if (isNaN(ym) || ym === prevYm) {
           break;
         }
 
-        // If the difference between the current and previous c values is less than the tolerance, break the loop
         if (prevC !== null && Math.abs(c - prevC) < tol) {
           break;
         }
@@ -78,8 +76,8 @@ const FalsePosition = () => {
           break;
         }
 
-        prevYm = ym; // Update the previous ym value
-        prevC = c; // Update the previous c value
+        prevYm = ym;
+        prevC = c;
         currentIteration++;
       } while (true);
 

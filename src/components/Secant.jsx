@@ -41,7 +41,6 @@ const Secant = () => {
       do {
         x2 = x1Num - f(x1Num) * ((x1Num - x0Num) / (f(x1Num) - f(x0Num)));
 
-        // Calculate relative error for all iterations
         let currentRelativeError = Math.abs(((x2 - x1Num) / x2) * 100);
 
         iterationData.push({
@@ -57,9 +56,9 @@ const Secant = () => {
         });
 
         if (
-          f(x2) == 0 || // new condition to halt when f(x) is exactly 0
+          f(x2) == 0 ||
           currentRelativeError < parseFloat(precision) ||
-          iterationCount >= 10 // new condition to halt at the 10th iteration
+          iterationCount >= 10
         ) {
           break;
         }
@@ -68,7 +67,6 @@ const Secant = () => {
         x1Num = x2;
         iterationCount++;
 
-        // Update previous relative error for the next iteration
         previousRelativeError = currentRelativeError;
       } while (true);
 

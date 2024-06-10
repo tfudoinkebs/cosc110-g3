@@ -38,7 +38,6 @@ const NewtonRaphson = () => {
       let iterationData = [];
       let iteration = 1;
 
-      // First iteration initialization
       iterationData.push({
         iteration: iteration,
         x: parseFloat(x0.toFixed(decimalPlaces)),
@@ -49,7 +48,7 @@ const NewtonRaphson = () => {
 
       do {
         x1 = x0 - f(x0) / df(x0);
-        let relativeError = Math.abs((x1 - x0) / x1) * 100; // Corrected
+        let relativeError = Math.abs((x1 - x0) / x1) * 100;
 
         iteration++;
         iterationData.push({
