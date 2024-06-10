@@ -244,19 +244,19 @@ const FalsePosition = () => {
             )}
             {result !== undefined &&
               (() => {
-                let tableRow = iterations.find(
-                  (row) =>
-                    parseFloat(row.xm.toFixed(roundOff)) === parseFloat(result),
-                );
-                let displayResult = tableRow ? tableRow.ym : "n/a";
+                // Find the last iteration data
+                const lastIterationData = iterations[iterations.length - 1];
+                // Extract the last value of Ym as f(x)
+                const lastFofX = lastIterationData
+                  ? lastIterationData.ym
+                  : "n/a";
                 return (
                   <tr className="flex w-full items-center justify-between rounded-b-lg bg-orange-500 p-2 text-white">
                     <td>
                       <span className="font-semibold">Root:</span> {result}
                     </td>
                     <td>
-                      <span className="font-semibold">f(x)</span>:{" "}
-                      {displayResult}
+                      <span className="font-semibold">f(x)</span>: {lastFofX}
                     </td>
                   </tr>
                 );
