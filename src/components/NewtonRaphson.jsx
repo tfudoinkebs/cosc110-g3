@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { evaluate, derivative } from "mathjs";
 
 const NewtonRaphson = () => {
-  const [originalFunctionStr, setOriginalFunctionStr] = useState("");
   const [functionStr, setFunctionStr] = useState("sin(sqrt(x))-x");
   const [initialGuess, setInitialGuess] = useState("1");
   const [precision, setPrecision] = useState("0.0001");
@@ -10,6 +9,21 @@ const NewtonRaphson = () => {
   const [result, setResult] = useState(null);
   const [iterations, setIterations] = useState([]);
   const [error, setError] = useState(null);
+
+  const generateRandomEquation = () => {
+    const equations = [
+      "sin(x) - 0.5",
+      "x^3 - x^2 - 1",
+      "cos(x) - x",
+      "x^2 - 4",
+      "tan(x) - 2*x",
+      "x^3-2x-5",
+      "x^3+2x^2-9",
+    ];
+
+    const randomIndex = Math.floor(Math.random() * equations.length);
+    setFunctionStr(equations[randomIndex]);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -47,7 +61,7 @@ const NewtonRaphson = () => {
           relativeError: parseFloat(relativeError.toFixed(2)),
         });
 
-        if (relativeError < tol) {
+        if (Math.abs(f(x1)) <= tol) {
           break;
         }
 
@@ -58,13 +72,18 @@ const NewtonRaphson = () => {
       setResult(x1.toFixed(decimalPlaces));
       setError(null);
     } catch (error) {
+      handleError();
       setError("Invalid function expression. Please check your input.");
     }
   };
 
+  const handleError = () => {
+    setIterations([]);
+  };
+
   const handleReset = () => {
-    setFunctionStr(originalFunctionStr);
-    setInitialGuess("");
+    setFunctionStr("");
+    setInitialGuess("1");
     setPrecision("0.0001");
     setRoundOff("4");
     setResult(null);
@@ -77,21 +96,21 @@ const NewtonRaphson = () => {
       <form className="flex w-full flex-col" onSubmit={handleSubmit}>
         <label className="flex w-full flex-col">
           <div className="flex w-full items-end justify-center gap-2 pt-4 text-sm font-semibold">
+            <button
+              className="ml-2 rounded-lg border-2 p-2"
+              type="button"
+              onClick={generateRandomEquation}
+            >
+              Randomize
+            </button>
             <div className="ml-2 flex h-auto w-2/3 flex-col items-center justify-center md:w-1/3">
               <h2 className="flex w-auto text-sm font-semibold">Equation</h2>
               <input
                 className="flex w-full items-center justify-center rounded-lg border-2 p-2 text-center font-semibold"
-                defaultValue={functionStr}
+                type="text"
+                value={functionStr}
                 onChange={(e) => {
-                  try {
-                    new Function(`return ${e.target.value}`);
-                    setOriginalFunctionStr(e.target.value);
-                    setFunctionStr(e.target.value);
-                  } catch (error) {
-                    console.error(
-                      "Invalid function expression. Please check your input.",
-                    );
-                  }
+                  setFunctionStr(e.target.value);
                 }}
                 required
               />
@@ -123,15 +142,6 @@ const NewtonRaphson = () => {
             />
           </label>
           <label className="flex flex-col gap-1">
-            <span className="pr-2 text-sm font-semibold">Round Off</span>
-            <input
-              className="w-20 rounded-lg border-2 px-2 py-1"
-              type="number"
-              value={roundOff}
-              onChange={(e) => setRoundOff(e.target.value)}
-            />
-          </label>
-          <label className="flex flex-col gap-1">
             <span className="pr-2 text-sm font-semibold">Precision</span>
             <input
               className="w-24 rounded-lg border-2 px-2 py-1"
@@ -139,6 +149,15 @@ const NewtonRaphson = () => {
               value={precision}
               onChange={(e) => setPrecision(e.target.value)}
               required
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="pr-2 text-sm font-semibold">Round Off</span>
+            <input
+              className="w-20 rounded-lg border-2 px-2 py-1"
+              type="number"
+              value={roundOff}
+              onChange={(e) => setRoundOff(e.target.value)}
             />
           </label>
         </div>
@@ -181,6 +200,13 @@ const NewtonRaphson = () => {
                 <td className="border-gray-200 p-5"></td>
                 <td className="border-gray-200 p-5"></td>
                 <td className="border-gray-200 p-5"></td>
+              </tr>
+            )}
+            {result !== undefined && (
+              <tr className="flex w-full items-center justify-between rounded-b-lg bg-orange-500 p-2 text-white">
+                <td>
+                  <span className="font-semibold">Root:</span> {result}
+                </td>
               </tr>
             )}
           </tbody>

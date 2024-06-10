@@ -2,14 +2,29 @@ import React, { useState } from "react";
 import { evaluate } from "mathjs";
 
 const Secant = () => {
-  const [functionStr, setFunctionStr] = useState("x^3 + 3 * x^2 + 12 * x+8");
+  const [functionStr, setFunctionStr] = useState("x^3 + 3 * x^2 + 12 * x + 8");
   const [x0, setX0] = useState("1");
   const [x1, setX1] = useState("2");
   const [roundOff, setRoundOff] = useState("4");
   const [result, setResult] = useState(null);
   const [iterations, setIterations] = useState([]);
   const [error, setError] = useState(null);
-  const [precision, setPrecision] = useState("0.01");
+  const [precision, setPrecision] = useState("0.0001");
+
+  const generateRandomEquation = () => {
+    const equations = [
+      "sin(x) - 0.5",
+      "x^3 - x^2 - 1",
+      "cos(x) - x",
+      "tan(x) - 2*x",
+      "x^3 - 2x - 5",
+      "x^3 + 2x^2 - 9",
+      "sin(sqrt(x))-x",
+    ];
+
+    const randomIndex = Math.floor(Math.random() * equations.length);
+    setFunctionStr(equations[randomIndex]);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,16 +35,22 @@ const Secant = () => {
       let decimalPlaces = parseInt(roundOff);
       let x2;
       let iterationData = [];
+      let previousRelativeError = null;
+      let iterationCount = 1;
 
-      let relativeError = 100; // Initialize relative error to 100% for the first iteration
-
-      let iterationCount = 1; // Start iteration count from 1
+      // error handling for invalid function values
+      // if (f(x0Num) * f(x1Num) >= 0) {
+      //   setError(
+      //     "Function values at the endpoints must have opposite signs. This can lead to incorrect results or failure of convergence",
+      //   );
+      //   return;
+      // }
 
       do {
         x2 = x1Num - f(x1Num) * ((x1Num - x0Num) / (f(x1Num) - f(x0Num)));
 
         // Calculate relative error for all iterations
-        relativeError = Math.abs(((x2 - x1Num) / x2) * 100);
+        let currentRelativeError = Math.abs(((x2 - x1Num) / x2) * 100);
 
         iterationData.push({
           iteration: iterationCount,
@@ -37,31 +58,46 @@ const Secant = () => {
           xb: parseFloat(x1Num.toFixed(decimalPlaces)),
           fxa: parseFloat(f(x0Num).toFixed(decimalPlaces)),
           fxb: parseFloat(f(x1Num).toFixed(decimalPlaces)),
-          relativeError: parseFloat(relativeError.toFixed(2)),
+          relativeError:
+            previousRelativeError !== null
+              ? parseFloat(previousRelativeError.toFixed(2))
+              : "",
         });
 
-        if (relativeError < parseFloat(precision)) {
-          // Change this line
+        if (
+          f(x2) == 0 || // new condition to halt when f(x) is exactly 0
+          currentRelativeError < parseFloat(precision) ||
+          iterationCount >= 10 // new condition to halt at the 10th iteration
+        ) {
           break;
         }
 
         x0Num = x1Num;
         x1Num = x2;
         iterationCount++;
+
+        // Update previous relative error for the next iteration
+        previousRelativeError = currentRelativeError;
       } while (true);
 
       setIterations(iterationData);
-      setResult(x2.toFixed(decimalPlaces));
+      setResult(x1Num.toFixed(decimalPlaces));
       setError(null);
     } catch (error) {
+      handleError();
       setError("Invalid function expression. Please check your input.");
     }
   };
 
+  const handleError = () => {
+    setIterations([]);
+  };
+
   const handleReset = () => {
     setFunctionStr("");
-    setX0("");
-    setX1("");
+    setX0("1");
+    setX1("2");
+    setPrecision("0.0001");
     setRoundOff("4");
     setResult(null);
     setIterations([]);
@@ -73,14 +109,22 @@ const Secant = () => {
       <form className="flex w-full flex-col" onSubmit={handleSubmit}>
         <label className="flex w-full flex-col">
           <div className="flex w-full items-end justify-center gap-2 pt-4 text-sm font-semibold">
+            <button
+              className="ml-2 rounded-lg border-2 p-2"
+              type="button"
+              onClick={generateRandomEquation}
+            >
+              Randomize
+            </button>
             <div className="ml-2 flex h-auto w-2/3 flex-col items-center justify-center md:w-1/3">
               <h2 className="flex w-auto text-sm font-semibold">Equation</h2>
               <input
                 className="flex w-full items-center justify-center rounded-lg border-2 p-2 text-center font-semibold"
-                defaultValue={functionStr}
                 type="text"
                 value={functionStr}
-                onChange={(e) => setFunctionStr(e.target.value)}
+                onChange={(e) => {
+                  setFunctionStr(e.target.value);
+                }}
                 required
               />
             </div>
@@ -102,7 +146,7 @@ const Secant = () => {
         <div className="flex w-full flex-wrap items-center justify-center gap-2 pt-4">
           <label className="flex flex-col gap-1">
             <span className="pr-2 text-sm font-semibold">
-              X<sub className="font-semibold">a</sub>
+              X<sub className="font-semibold">L</sub>
             </span>
             <input
               className="w-20 rounded-lg border-2 px-2 py-1"
@@ -114,7 +158,7 @@ const Secant = () => {
           </label>
           <label className="flex flex-col gap-1">
             <span className="pr-2 text-sm font-semibold">
-              X<sub className="font-semibold">b</sub>
+              X<sub className="font-semibold">R</sub>
             </span>
             <input
               className="w-20 rounded-lg border-2 px-2 py-1"
@@ -127,7 +171,7 @@ const Secant = () => {
           <label className="flex flex-col gap-1">
             <span className="pr-2 text-sm font-semibold">Precision</span>
             <input
-              className="w-20 rounded-lg border-2 px-2 py-1"
+              className="w-24 rounded-lg border-2 px-2 py-1"
               type="number"
               value={precision}
               onChange={(e) => setPrecision(e.target.value)}
@@ -176,7 +220,9 @@ const Secant = () => {
                   <td className="border-x border-gray-200 p-2">{iter.fxa}</td>
                   <td className="border-x border-gray-200 p-2">{iter.fxb}</td>
                   <td className="border-x border-gray-200 p-2">
-                    {iter.relativeError}%
+                    {iter.iteration > 1
+                      ? `${iter.relativeError}%`
+                      : iter.relativeError}
                   </td>
                 </tr>
               ))
@@ -190,17 +236,16 @@ const Secant = () => {
                 <td className="border-gray-200 p-5"></td>
               </tr>
             )}
+            {result !== undefined && (
+              <tr className="flex w-full items-center justify-between rounded-b-lg bg-orange-500 p-2 text-white">
+                <td>
+                  <span className="font-semibold">Root:</span> {result}
+                </td>
+              </tr>
+            )}
           </tbody>
-          {error && <div style={{ color: "red" }}>{error}</div>}
-          {result !== null &&
-            (() => {
-              let tableRow = iterations.find(
-                (row) =>
-                  parseFloat(row.xb.toFixed(roundOff)) === parseFloat(result),
-              );
-              let displayResult = tableRow ? tableRow.fxb : "n/a ";
-            })()}
         </table>
+        {error && <div style={{ color: "red" }}>{error}</div>}
       </div>
     </div>
   );

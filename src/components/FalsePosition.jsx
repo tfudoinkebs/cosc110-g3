@@ -2,15 +2,28 @@ import React, { useState } from "react";
 import { evaluate } from "mathjs";
 
 const FalsePosition = () => {
-  const [originalFunctionStr, setOriginalFunctionStr] = useState("");
   const [functionStr, setFunctionStr] = useState("2x^3 - 2x - 5");
   const [a, setA] = useState("1");
   const [b, setB] = useState("2");
-  const [precision, setPrecision] = useState("0.1");
+  const [precision, setPrecision] = useState("0.0001");
   const [roundOff, setRoundOff] = useState("4");
   const [result, setResult] = useState(null);
   const [iterations, setIterations] = useState([]);
   const [error, setError] = useState(null);
+
+  const generateRandomEquation = () => {
+    const equations = [
+      "x^3 - 6*x^2 + 11*x - 6",
+      "x^3 - 3*x^2 + 3*x - 1",
+      "sin(x) - 0.5",
+      "x^3 - x^2 - 1",
+      "cos(x) - x",
+      "tan(x) - 2*x",
+    ];
+
+    const randomIndex = Math.floor(Math.random() * equations.length);
+    setFunctionStr(equations[randomIndex]);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,13 +36,17 @@ const FalsePosition = () => {
       let c;
       let iterationData = [];
       let prevYm = null; // Store the previous Ym value
-      let prevPrevYm = null; // Store the Ym value of the iteration before the previous one
       let currentIteration = 1;
+      const maxIterations = 1000; // Set a maximum limit for iterations
 
-      if (f(aNum) * f(bNum) >= 0) {
-        setError("Function values at the endpoints must have opposite signs.");
-        return;
-      }
+      // error handling for invalid function values
+      // if (f(aNum) * f(bNum) >= 0) {
+      //   handleError();
+      //   setError("Function values at the endpoints must have opposite signs.");
+      //   return;
+      // }
+
+      let prevC = null;
 
       do {
         c = aNum - (f(aNum) * (bNum - aNum)) / (f(bNum) - f(aNum));
@@ -47,7 +64,13 @@ const FalsePosition = () => {
           yr: parseFloat(yr.toFixed(decimalPlaces)),
         });
 
-        if (Math.abs(ym - prevYm) < tol) {
+        // If the result is NaN or the same as the previous value, break the iteration
+        if (isNaN(ym) || ym === prevYm) {
+          break;
+        }
+
+        // If the difference between the current and previous c values is less than the tolerance, break the loop
+        if (prevC !== null && Math.abs(c - prevC) < tol) {
           break;
         }
 
@@ -64,6 +87,7 @@ const FalsePosition = () => {
         }
 
         prevYm = ym; // Update the previous ym value
+        prevC = c; // Update the previous c value
         currentIteration++;
       } while (true);
 
@@ -71,16 +95,20 @@ const FalsePosition = () => {
       setResult(c.toFixed(decimalPlaces));
       setError(null);
     } catch (error) {
+      handleError();
       setError("Invalid function expression. Please check your input.");
     }
   };
 
+  const handleError = () => {
+    setIterations([]);
+  };
+
   const handleReset = () => {
-    setOriginalFunctionStr("");
     setFunctionStr("");
-    setA("");
-    setB("");
-    setPrecision("0.1");
+    setA("1");
+    setB("2");
+    setPrecision("0.0001");
     setRoundOff("4");
     setResult(null);
     setIterations([]);
@@ -92,14 +120,20 @@ const FalsePosition = () => {
       <form className="flex w-full flex-col" onSubmit={handleSubmit}>
         <label className="flex w-full flex-col">
           <div className="flex w-full items-end justify-center gap-2 pt-4 text-sm font-semibold">
-            <div className="ml-2 flex h-auto w-2/3 flex-col items-center justify-center md:w-1/3">
+            <button
+              className="ml-2 rounded-lg border-2 p-2"
+              type="button"
+              onClick={generateRandomEquation}
+            >
+              Randomize
+            </button>
+            <div className="flex h-auto w-2/3 flex-col items-center justify-center md:w-1/3">
               <h2 className="flex w-auto text-sm font-semibold">Equation</h2>
               <input
                 className="flex w-full items-center justify-center rounded-lg border-2 p-2 text-center font-semibold"
                 type="text"
                 value={functionStr}
                 onChange={(e) => {
-                  setOriginalFunctionStr(e.target.value);
                   setFunctionStr(e.target.value);
                 }}
                 required
@@ -148,7 +182,7 @@ const FalsePosition = () => {
           <label className="flex flex-col gap-1">
             <span className="pr-2 text-sm font-semibold">Precision</span>
             <input
-              className="w-20 rounded-lg border-2 px-2 py-1"
+              className="w-24 rounded-lg border-2 px-2 py-1"
               type="number"
               step="any"
               value={precision}
@@ -218,27 +252,28 @@ const FalsePosition = () => {
                 <td className="border-gray-200 p-5"></td>
               </tr>
             )}
+            {result !== undefined &&
+              (() => {
+                let tableRow = iterations.find(
+                  (row) =>
+                    parseFloat(row.xm.toFixed(roundOff)) === parseFloat(result),
+                );
+                let displayResult = tableRow ? tableRow.ym : "n/a";
+                return (
+                  <tr className="flex w-full items-center justify-between rounded-b-lg bg-orange-500 p-2 text-white">
+                    <td>
+                      <span className="font-semibold">Root:</span> {result}
+                    </td>
+                    <td>
+                      <span className="font-semibold">f(x)</span>:{" "}
+                      {displayResult}
+                    </td>
+                  </tr>
+                );
+              })()}
           </tbody>
-          {error && <div style={{ color: "red" }}>{error}</div>}
-          {result !== undefined &&
-            (() => {
-              let tableRow = iterations.find(
-                (row) =>
-                  parseFloat(row.xm.toFixed(roundOff)) === parseFloat(result),
-              );
-              let displayResult = tableRow ? tableRow.ym : "n/a";
-              return (
-                <div className="flex w-full items-center justify-between rounded-b-lg bg-orange-500 p-2 text-white">
-                  <span>
-                    <span className="font-semibold">Root:</span> {result}
-                  </span>
-                  <span>
-                    <span className="font-semibold">f(x)</span>: {displayResult}
-                  </span>
-                </div>
-              );
-            })()}
         </table>
+        {error && <div style={{ color: "red" }}>{error}</div>}
       </div>
     </div>
   );
