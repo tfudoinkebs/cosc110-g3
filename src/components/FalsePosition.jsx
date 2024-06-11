@@ -113,7 +113,7 @@ const FalsePosition = () => {
         <label className="flex w-full flex-col">
           <div className="flex w-full items-end justify-center gap-2 pt-4 text-sm font-semibold">
             <button
-              className="ml-2 rounded-lg border-2 p-2"
+              className="ml-2 rounded-lg border-2 p-2 hover:border-orange-500"
               type="button"
               onClick={generateRandomEquation}
             >
