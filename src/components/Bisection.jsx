@@ -238,10 +238,7 @@ const Bisection = () => {
             )}
             {result !== undefined &&
               (() => {
-                let tableRow = iterations.find(
-                  (row) =>
-                    parseFloat(row.xm.toFixed(roundOff)) === parseFloat(result),
-                );
+                let tableRow = iterations[iterations.length - 1];
                 let displayResult = tableRow ? tableRow.ym : "n/a ";
                 return (
                   <tr className="flex w-full items-center justify-between rounded-b-lg bg-orange-500 p-2 text-white">

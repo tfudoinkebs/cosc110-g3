@@ -73,7 +73,7 @@ const Secant = () => {
       } while (true);
 
       setIterations(iterationData);
-      setResult(x1Num.toFixed(decimalPlaces));
+      setResult(x2.toFixed(decimalPlaces));
       setError(null);
     } catch (error) {
       handleError();
@@ -99,44 +99,43 @@ const Secant = () => {
   return (
     <div className="flex w-full flex-col items-center justify-center">
       <form className="flex w-full flex-col" onSubmit={handleSubmit}>
-        <label className="flex w-full flex-col">
-          <div className="flex w-full items-end justify-center gap-2 pt-4 text-sm font-semibold">
-            <button
-              className="ml-2 rounded-lg border-2 p-2 hover:border-orange-500"
-              type="button"
-              onClick={generateRandomEquation}
-            >
-              <p className="hidden md:block">Randomize</p>
-              <FaRandom className="block size-5 md:hidden" />
-            </button>
-            <div className="ml-2 flex h-auto w-2/3 flex-col items-center justify-center md:w-1/3">
-              <h2 className="flex w-auto text-sm font-semibold">Equation</h2>
-              <input
-                className="flex w-full items-center justify-center rounded-lg border-2 p-2 text-center font-semibold"
-                type="text"
-                value={functionStr}
-                onChange={(e) => {
-                  setFunctionStr(e.target.value);
-                }}
-                required
-              />
-            </div>
-            <button
-              className="rounded-lg border-2 p-2 hover:border-orange-500"
-              type="submit"
-            >
-              Calculate
-            </button>
-            <button
-              className="mr-2 rounded-lg border-2 p-2 hover:border-red-600"
-              type="button"
-              onClick={handleReset}
-            >
-              <p className="hidden md:block">Reset</p>{" "}
-              <FaArrowRotateRight className="block size-5 md:hidden" />
-            </button>
+        <div className="flex w-full items-end justify-center gap-2 pt-4 text-sm font-semibold">
+          <button
+            className="ml-2 rounded-lg border-2 p-2 hover:border-orange-500"
+            type="button"
+            onClick={generateRandomEquation}
+          >
+            <p className="hidden md:block">Randomize</p>
+            <FaRandom className="block size-5 md:hidden" />
+          </button>
+          <div className="ml-2 flex h-auto w-2/3 flex-col items-center justify-center md:w-1/3">
+            <h2 className="flex w-auto text-sm font-semibold">Equation</h2>
+            <input
+              className="flex w-full items-center justify-center rounded-lg border-2 p-2 text-center font-semibold"
+              type="text"
+              value={functionStr}
+              onChange={(e) => {
+                setFunctionStr(e.target.value);
+              }}
+              required
+            />
           </div>
-        </label>
+          <button
+            className="rounded-lg border-2 p-2 hover:border-orange-500"
+            type="submit"
+          >
+            Calculate
+          </button>
+          <button
+            className="mr-2 rounded-lg border-2 p-2 hover:border-red-600"
+            type="button"
+            onClick={handleReset}
+          >
+            <p className="hidden md:block">Reset</p>{" "}
+            <FaArrowRotateRight className="block size-5 md:hidden" />
+          </button>
+        </div>
+
         <div className="flex w-full flex-wrap items-center justify-center gap-2 pt-4">
           <label className="flex flex-col gap-1">
             <span className="pr-2 text-sm font-semibold">
