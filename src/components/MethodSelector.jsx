@@ -35,7 +35,7 @@ const MethodSelector = () => {
         Open Method: Newton-Raphson & Secant
       </p>
       <select
-        className="rounded-lg border border-gray-300 p-2"
+        className="rounded-lg border border-gray-300 p-2 text-xl font-semibold"
         value={selectedMethod}
         onChange={(e) => setSelectedMethod(e.target.value)}
       >

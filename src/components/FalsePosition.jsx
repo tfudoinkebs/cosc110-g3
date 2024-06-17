@@ -122,7 +122,7 @@ const FalsePosition = () => {
           <div className="flex h-auto w-2/3 flex-col items-center justify-center md:w-1/3">
             <h2 className="flex w-auto text-sm font-semibold">Equation</h2>
             <input
-              className="flex w-full items-center justify-center rounded-lg border-2 p-2 text-center font-semibold"
+              className="flex w-full items-center justify-center rounded-lg border-2 p-1 text-center text-lg font-semibold"
               type="text"
               value={functionStr}
               onChange={(e) => {
