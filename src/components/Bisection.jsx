@@ -166,7 +166,7 @@ const Bisection = () => {
           <label className="flex flex-col gap-1">
             <span className="text-sm font-semibold">Precision</span>
             <input
-              className="w-20 rounded-lg border-2 px-2 py-1"
+              className="w-24 rounded-lg border-2 px-2 py-1"
               type="number"
               step="any"
               value={precision}
